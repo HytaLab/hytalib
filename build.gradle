@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group = 'dev.team.hytalib'
+version = '0.0.1'
+sourceCompatibility = 21
+targetCompatibility = 21
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Connection Pool
+    implementation 'com.zaxxer:HikariCP:5.1.0'
+
+    // JDBC Drivers
+    implementation 'com.mysql:mysql-connector-j:8.3.0'
+    implementation 'com.h2database:h2:2.2.224'
+    implementation 'org.xerial:sqlite-jdbc:3.45.1.0'
+    implementation 'org.apache.commons:commons-lang3:3.18.0'
+
+    // Redis
+    implementation 'redis.clients:jedis:5.1.2'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Implementation-Title': 'Hytalib',
+                'Implementation-Version': version
+        )
+    }
+}
