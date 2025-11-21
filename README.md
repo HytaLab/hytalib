@@ -27,7 +27,7 @@ If you are developing Hytalib locally, clone the repo and import it into Intelli
 
 1. Open IntelliJ  
 2. Click **New Project → Gradle → Java**  
-3. Set **Java 17**  
+3. Set **Java 21**  
 4. Add the dependencies listed above  
 5. Reload Gradle  
 6. Create your main plugin module
