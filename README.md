@@ -1,13 +1,13 @@
 # 🚀 Hytalib — Getting Started Guide
 
-Welcome to **Hytalib**, the lightweight helper library built to make Hytale plugin development faster, cleaner, and way more fun.  
-This guide walks you through installation, setup, and writing your first plugin using Hytalib.
+Welcome to **Hytalib**, the lightweight helper library made to power clean, scalable Hytale server plugins.  
+It gives you config handling, database utilities, logging, builders, and common helpers — without bloat.
 
 ---
 
 # 📦 1. Installation
 
-Add Hytalib to your plugin project using Gradle:
+Add Hytalib to your Gradle project:
 
 ```gradle
 repositories {
@@ -15,87 +15,136 @@ repositories {
 }
 
 dependencies {
-    implementation 'dev.team.hytalib:hytalib:0.0.1'
+    implementation 'dev.team.hytalib:hytalib:0.0.2'
 }
 ```
 
-If you are developing Hytalib locally, clone the repo and import it into IntelliJ.
+If you're working on the library itself, simply clone the repo and open it in IntelliJ.
 
 ---
 
 # ⚙️ 2. Project Setup (IntelliJ + Gradle)
 
 1. Open IntelliJ  
-2. Click **New Project → Gradle → Java**  
-3. Set **Java 21**  
-4. Add the dependencies listed above  
+2. **New Project → Gradle → Java**  
+3. Set Java version (**17+ recommended**)  
+4. Add the Gradle dependency above  
 5. Reload Gradle  
-6. Create your main plugin module
+6. Create your first plugin class
 
 ---
 
-# 🧩 3. Your First Plugin
+# 🧩 3. Your Plugin Entry Class
 
-Every plugin extends `PluginBase`:
+Every plugin extends `PluginBase`.
 
 ```java
 public class ExamplePlugin extends PluginBase {
 
     @Override
+    public void onLoad() {
+        super.onLoad("ExamplePlugin");
+    }
+
+    @Override
     protected void onEnable() {
-        getLogger().info("Example plugin is alive!");
+        getLogger().info("ExamplePlugin has started!");
     }
 
     @Override
     protected void onDisable() {
-        getLogger().info("Example plugin is stopping...");
+        getLogger().info("ExamplePlugin is shutting down...");
     }
 }
 ```
 
-You now have:
-- Plugin lifecycle  
-- Built‑in logger  
-- Ready support for database integrations  
+PluginBase gives you:
+
+- A built-in logger  
+- An easy plugin lifecycle  
+- Auto registration of plugin name  
+- Clean structure for startup and shutdown  
 
 ---
 
-# 🗄️ 4. Database Setup
+# 🧾 4. Configuration System (YAML)
+
+Hytalib ships with a minimal, fast config loader built on SnakeYAML.
+
+### Creating a configuration:
+
+```java
+Configuration config = new Configuration(Paths.get("plugins/ExamplePlugin/config.yml"));
+```
+
+### Reading values:
+
+```java
+config.getString("host");
+config.getInt("port");
+config.getBoolean("feature.enabled");
+
+// All getters have a built-in safe fallback:
+String value = config.getString("missing.key"); // returns null safely
+```
+
+### Complete getters:
+
+- `getString(key)`
+- `getInt(key)`
+- `getBoolean(key)`
+- `getDouble(key)`
+- `getLong(key)`
+- `getList(key)`
+- `getMap(key)`
+
+Defaults are optional — missing values simply return `null`.
+
+---
+
+# 🗄️ 5. Databases (HikariCP Connection Pooling)
 
 Hytalib supports:
 
 - MySQL  
 - SQLite  
 - H2  
-- Redis  
+- PostgreSQL *(soon)*  
+- Redis (via Jedis)
 
-### Example — MySQL with HikariCP:
+### Example from plugin:
 
 ```java
-var dataSource = DatabaseBuilder.create()
-        .type(DatabaseType.MYSQL)
-        .host("localhost")
-        .port(3306)
-        .database("hytalib")
-        .user("root")
-        .password("password")
+database = DatabaseBuilder.create()
+        .type(DatabaseTypes.MYSQL)
+        .host(config.getString("data.host"))
+        .port(config.getInt("data.port"))
+        .database(config.getString("data.database"))
+        .user(config.getString("data.username"))
+        .password(config.getString("data.password"))
+        .maxPoolSize(20)
         .build();
 ```
 
-### SQLite:
+### SQLite example:
 
 ```java
-var dataSource = DatabaseBuilder.create()
-        .type(DatabaseType.SQLITE)
-        .file("plugins/Hytalib/data.db")
+database = DatabaseBuilder.create()
+        .type(DatabaseTypes.SQLITE)
+        .file("plugins/ExamplePlugin/data.db")
         .build();
 ```
+
+DatabaseBuilder automatically:
+
+- Creates a HikariDataSource  
+- Applies safe defaults  
+- Validates missing fields  
+- Provides pooled connections  
 
 ---
 
-# 🗃️ 5. Creating a Data Model
-
-Example: user storage.
+# 🗃️ 6. Example Data Model
 
 ```java
 public class UserData {
@@ -114,7 +163,7 @@ public class UserData {
 
 ---
 
-# 📁 6. Repository for Database Access
+# 📁 7. Repository Example
 
 ```java
 public class UserRepository {
@@ -143,54 +192,78 @@ public class UserRepository {
 
 ---
 
-# 🔌 7. Putting It All Together
+# 🔌 8. Full Example Plugin (Config + Database)
 
 ```java
-@Override
-protected void onEnable() {
-    getLogger().info("Booting Hytalib example...");
+public class ExamplePlugin extends PluginBase {
 
-    var ds = DatabaseBuilder.create()
-            .type(DatabaseType.MYSQL)
-            .host("localhost")
-            .port(3306)
-            .database("hytalib")
-            .user("root")
-            .password("password")
-            .build();
+    private static ExamplePlugin instance;
+    private Configuration config;
+    private Database database;
 
-    var db = new Database(ds);
-    var users = new UserRepository(db);
+    @Override
+    public void onLoad() {
+        super.onLoad("ExamplePlugin");
+    }
 
-    try {
-        users.createTable();
-        getLogger().info("User table initialized.");
-    } catch (Exception e) {
-        getLogger().error("Error setting up database: " + e.getMessage());
+    @Override
+    protected void onEnable() {
+        instance = this;
+
+        config = new Configuration(Paths.get("plugins/ExamplePlugin/config.yml"));
+
+        if (config.getBoolean("data.sql-enabled")) {
+            database = DatabaseBuilder.create()
+                    .type(DatabaseTypes.MYSQL)
+                    .host(config.getString("data.host"))
+                    .port(config.getInt("data.port"))
+                    .database(config.getString("data.database"))
+                    .user(config.getString("data.username"))
+                    .password(config.getString("data.password"))
+                    .maxPoolSize(20)
+                    .build();
+        }
+
+        getLogger().info("Example plugin enabled.");
+    }
+
+    @Override
+    protected void onDisable() {
+        if (database != null) database.close();
+    }
+
+    public static ExamplePlugin getInstance() {
+        return instance;
+    }
+
+    public Configuration getConfig() {
+        return config;
     }
 }
 ```
 
 ---
 
-# 🧰 8. Utilities
+# 🧰 9. Utilities
 
-Hytalib includes useful helper classes like:
-
-### Number Utils
+### NumberUtils
 
 ```java
 NumberUtils.isInt("123");
 NumberUtils.isDouble("3.14");
-NumberUtils.format(1500); // "1,500"
+NumberUtils.format(1500);     // "1,500"
 NumberUtils.round(3.14159, 2);
 ```
 
-More utilities will be added over time.
+### ConfigUtils
+
+- Safe loading  
+- Auto-creating missing files  
+- Includes optional default-saving  
 
 ---
 
-# 👨‍💻 9. Folder Structure (Recommended)
+# 📂 10. Recommended Project Structure
 
 ```
 src/
@@ -202,19 +275,20 @@ src/
                      ├─ core/
                      ├─ db/
                      ├─ utils/
+                     ├─ config/
                      └─ examples/
 ```
 
 ---
 
-# ❤️ 10. Need Help?
+# ❤️ 11. Need Help?
 
-Open an issue or create a discussion on GitHub.  
-We’re building this library *for developers*, so feedback is always welcome.
+Open an issue or discussion.  
+This project exists *for developers like you*.
 
 ---
 
-# 🎉 You’re Ready!
+# 🎉 You're Ready to Build
 
-You now have everything you need to start creating clean, scalable Hytale server plugins using Hytalib.  
-Happy building 💙
+You now have a fully functional foundation for serious Hytale plugin development.  
+Happy coding! 💙
