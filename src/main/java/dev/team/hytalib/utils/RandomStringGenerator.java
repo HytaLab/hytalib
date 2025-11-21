@@ -2,6 +2,9 @@ package dev.team.hytalib.utils;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * HytaLab Studio code @ 2025
+ */
 public interface RandomStringGenerator {
 
     static RandomStringGenerator lowercase() {

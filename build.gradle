@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'dev.team.hytalib'
-version = '0.0.1'
+version = '0.0.2'
 sourceCompatibility = 21
 targetCompatibility = 21
 
@@ -23,6 +23,10 @@ dependencies {
 
     // Redis
     implementation 'redis.clients:jedis:5.1.2'
+
+    // json & yml
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.yaml:snakeyaml:2.2'
 }
 
 jar {

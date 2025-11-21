@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * HytaLab Studio code @ 2025
+ */
 public class JdbcDatabaseImpl implements JdbcDatabase {
 
     private final HikariDataSource dataSource;

@@ -2,6 +2,9 @@ package dev.team.hytalib.messaging;
 
 import java.util.Collection;
 
+/**
+ * HytaLab Studio code @ 2025
+ */
 public final class MessageUtils {
 
     private static String prefix = "[Hytalib] ";

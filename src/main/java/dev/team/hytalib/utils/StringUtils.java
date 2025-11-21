@@ -1,5 +1,8 @@
 package dev.team.hytalib.utils;
 
+/**
+ * HytaLab Studio code @ 2025
+ */
 public class StringUtils {
 
     public static String format(String message) {

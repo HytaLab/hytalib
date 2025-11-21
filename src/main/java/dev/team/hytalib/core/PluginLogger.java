@@ -9,7 +9,7 @@ public class PluginLogger {
     private final String prefix;
 
     public PluginLogger(String pluginName) {
-        this.prefix = pluginName;
+        this.prefix = "[" + pluginName + "]";
     }
 
     public void info(String msg) {

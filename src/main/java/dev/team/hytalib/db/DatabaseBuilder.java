@@ -2,6 +2,9 @@ package dev.team.hytalib.db;
 
 import java.util.Properties;
 
+/**
+ * HytaLab Studio code @ 2025
+ */
 public class DatabaseBuilder {
 
     private DatabaseTypes type;

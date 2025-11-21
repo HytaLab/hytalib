@@ -1,5 +1,8 @@
 package dev.team.hytalib.db;
 
+/**
+ * HytaLab Studio code @ 2025
+ */
 public enum DatabaseTypes {
 
     H2,

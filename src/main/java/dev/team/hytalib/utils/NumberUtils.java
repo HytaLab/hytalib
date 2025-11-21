@@ -1,9 +1,13 @@
 package dev.team.hytalib.utils;
 
+
 import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
 
+/**
+ * HytaLab Studio code @ 2025
+ */
 public class NumberUtils {
 
     public static boolean isDouble(@Nullable String value) {

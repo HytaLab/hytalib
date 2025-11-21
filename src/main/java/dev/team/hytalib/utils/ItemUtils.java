@@ -1,5 +1,8 @@
 package dev.team.hytalib.utils;
 
+/**
+ * HytaLab Studio code @ 2025
+ */
 public class ItemUtils {
 
     /*
