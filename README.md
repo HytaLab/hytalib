@@ -27,7 +27,7 @@ If you're working on the library itself, simply clone the repo and open it in In
 
 1. Open IntelliJ  
 2. **New Project → Gradle → Java**  
-3. Set Java version (**17+ recommended**)  
+3. Set Java version (**21+ recommended**) **Will change to 24**
 4. Add the Gradle dependency above  
 5. Reload Gradle  
 6. Create your first plugin class
