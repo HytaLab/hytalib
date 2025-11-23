@@ -12,10 +12,11 @@ Add Hytalib to your Gradle project:
 ```gradle
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' } // needed for hytalib
 }
 
 dependencies {
-    implementation 'dev.team.hytalib:hytalib:0.0.2'
+    implementation 'com.github.HytaLab:hytalib:VERSION'
 }
 ```
 
