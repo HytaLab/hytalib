@@ -155,7 +155,7 @@ database = DatabaseBuilder.create()
 ```java
 database = DatabaseBuilder.create()
         .type(DatabaseTypes.SQLITE)
-        .file("plugins/ExamplePlugin/data.db")
+        .filePath("plugins/ExamplePlugin/data.db")
         .build();
 ```
 
