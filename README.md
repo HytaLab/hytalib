@@ -7,18 +7,38 @@ It gives you config handling, database utilities, logging, builders, and common 
 
 # 📦 1. Installation
 
-Add Hytalib to your Gradle project:
+Add Hytalib to your Gradle/Maven project:
+
+<details>
+  <summary><strong>Gradle</strong></summary>
 
 ```gradle
 repositories {
     mavenCentral()
-    maven { url 'https://jitpack.io' } // needed for hytalib
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     implementation 'com.github.HytaLab:hytalib:VERSION'
 }
-```
+</details> <details> <summary><strong>Maven</strong></summary>
+xml
+Copy code
+<repositories>
+    <repository>
+        <id>jitpack</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.HytaLab</groupId>
+        <artifactId>hytalib</artifactId>
+        <version>VERSION</version>
+    </dependency>
+</dependencies>
+</details> ```
 
 If you're working on the library itself, simply clone the repo and open it in IntelliJ.
 
