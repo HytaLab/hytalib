@@ -12,7 +12,7 @@ Add Hytalib to your Gradle/Maven project:
 <details>
   <summary><strong>Gradle</strong></summary>
 
-```gradle
+```
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
@@ -21,9 +21,11 @@ repositories {
 dependencies {
     implementation 'com.github.HytaLab:hytalib:VERSION'
 }
-</details> <details> <summary><strong>Maven</strong></summary>
-xml
-Copy code
+```
+</details> 
+<details> <summary><strong>Maven</strong></summary>
+  
+```
 <repositories>
     <repository>
         <id>jitpack</id>
@@ -38,7 +40,8 @@ Copy code
         <version>VERSION</version>
     </dependency>
 </dependencies>
-</details> ```
+```
+</details>
 
 If you're working on the library itself, simply clone the repo and open it in IntelliJ.
 
