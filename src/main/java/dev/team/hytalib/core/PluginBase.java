@@ -3,7 +3,7 @@ package dev.team.hytalib.core;
 /**
  * HytaLab Studio code @ 2025
  * <p>
- * CSubject to change once Hytale server code is released.
+ * Subject to change once Hytale server code is released.
  */
 public abstract class PluginBase {
 

@@ -1,7 +1,6 @@
 package dev.team.hytalib.utils;
 
 
-import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
 
@@ -10,7 +9,7 @@ import java.text.DecimalFormat;
  */
 public class NumberUtils {
 
-    public static boolean isDouble(@Nullable String value) {
+    public static boolean isDouble(String value) {
         if (value == null) return false;
         try {
             Double.parseDouble(value);
@@ -20,7 +19,7 @@ public class NumberUtils {
         }
     }
 
-    public static boolean isInt(@Nullable String value) {
+    public static boolean isInt(String value) {
         if (value == null) return false;
         try {
             Integer.parseInt(value);
@@ -30,7 +29,7 @@ public class NumberUtils {
         }
     }
 
-    public static boolean isLong(@Nullable String value) {
+    public static boolean isLong(String value) {
         if (value == null) return false;
         try {
             Long.parseLong(value);
@@ -40,7 +39,7 @@ public class NumberUtils {
         }
     }
 
-    public static boolean isFloat(@Nullable String value) {
+    public static boolean isFloat(String value) {
         if (value == null) return false;
         try {
             Float.parseFloat(value);
@@ -50,19 +49,19 @@ public class NumberUtils {
         }
     }
 
-    public static int getIntOrDefault(@Nullable String value, int def) {
+    public static int getIntOrDefault(String value, int def) {
         return isInt(value) ? Integer.parseInt(value) : def;
     }
 
-    public static double getDoubleOrDefault(@Nullable String value, double def) {
+    public static double getDoubleOrDefault(String value, double def) {
         return isDouble(value) ? Double.parseDouble(value) : def;
     }
 
-    public static long getLongOrDefault(@Nullable String value, long def) {
+    public static long getLongOrDefault(String value, long def) {
         return isLong(value) ? Long.parseLong(value) : def;
     }
 
-    public static float getFloatOrDefault(@Nullable String value, float def) {
+    public static float getFloatOrDefault(String value, float def) {
         return isFloat(value) ? Float.parseFloat(value) : def;
     }
 
