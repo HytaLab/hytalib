@@ -91,6 +91,7 @@ public class DatabaseBuilder {
 
 
 
+
         /// not subject to do redis --- all placeholder stuff.....
         if (filePath == null)
             throw new IllegalStateException("SQLite requires filePath.");
